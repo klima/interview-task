@@ -1,15 +1,19 @@
 import CommentsTable from './components/commentsTable/CommentsTable';
-import useTable from './hooks/useTable/useTable';
-import { IComment } from './services/api/api';
+import useFetch from './hooks/useFetch/useFetch';
+import type { IComment } from './types/comments.type';
 
 function App() {
-  const [comments, commentsPage, setCommentsPage] = useTable<IComment>([]);
+  const [comments, commentsPage, setCommentsPage, isLoadingComments] = useFetch<IComment>('comments');
 
   return (
     <div className="App">
       Page: {commentsPage}
       Comments: {comments.length}
-      <CommentsTable items={comments} page={commentsPage} setPage={(newPage: number) => setCommentsPage(newPage)} />
+      {isLoadingComments ? (
+        <div>Loading comments...</div>
+      ) : (
+        <CommentsTable items={comments} page={commentsPage} setPage={(newPage: number) => setCommentsPage(newPage)} />
+      )}
     </div>
   );
 }
