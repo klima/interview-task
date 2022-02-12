@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import { getComments, IComment } from './services/api/api';
+import CommentsTable from './components/commentsTable/CommentsTable';
 
 function App() {
+  const [comments, setComments] = useState([] as IComment[]);
+  const [commentsPage, setCommentsPage] = useState(1);
+
+  useEffect(() => {
+    async function fetchComments(page: number = 1) {
+      const newComments: IComment[] = await getComments(page);
+
+      setComments(comments => [...comments, ...newComments]);
+    }
+
+    commentsPage > comments.length / 10 && fetchComments(commentsPage);
+  }, [comments.length, commentsPage]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      Page: {commentsPage}
+      Comments: {comments.length}
+      <CommentsTable items={comments} page={commentsPage} setPage={(newPage: number) => setCommentsPage(newPage)} />
     </div>
   );
 }
