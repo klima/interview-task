@@ -13,7 +13,7 @@ const useFetch = <T>(endpoint: string) => {
         setIsLoading(true);
 
         const { data }: { data: T[] } = await axios.get(
-          `https://jsonplaceholder.typicode.com/${endpoint}?_start=${page === 1 ? '0' : (page - 1) * limitPerPage}&_limit=${limitPerPage}`,
+          `https://jsonplaceholder.typicode.com/${endpoint}?_start=${page === 1 ? '0' : (page - 1) * limit}&_limit=${limit}`,
         );
 
         setResponses(data);
