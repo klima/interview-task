@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 const apiUrl = 'https://jsonplaceholder.typicode.com';
 const itemsLimitPerPage = 10;
